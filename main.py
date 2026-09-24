@@ -162,12 +162,16 @@ def confirm_enrolled(course, log=None):
 
 
 def main():
-    if not setting.courses:
-        print("courses 是空的，没有需要抢的课程，请先填写 config.json 或 setting.py")
+    problems = setting.config_problems()
+    if problems:
+        print("配置有问题，先处理一下：")
+        for problem in problems:
+            print("    - " + problem)
+        print("改完 config.json（或 setting.py）后，可以先跑 python check.py 自检一遍")
         return 1
 
-    if not (setting.user_id and setting.cookie and setting.token):
-        print("user_id / cookie / token 还没填好，请先填写 config.json 或 setting.py")
+    if not setting.courses:
+        print("courses 是空的，没有需要抢的课程，请先填写 config.json 或 setting.py")
         return 1
 
     log = ResponseLog(os.path.join(LOG_DIR, "responses-%s.log" % time.strftime("%Y%m%d")))

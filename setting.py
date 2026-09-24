@@ -80,9 +80,15 @@ headers = {
 }
 
 
-# 启动时的自检提醒（不影响运行，只是提示你哪里还没填）
-_missing = [name for name in ("user_id", "cookie", "token", "electiveBatchCode") if not globals()[name]]
-if _missing:
-    print("[配置提醒] 还没填写：" + "、".join(_missing) + "（改 config.json 或 setting.py）")
-if not courses:
-    print("[配置提醒] courses 是空的，main.py 不会提交任何选课请求")
+# 配置自检：返回明显不对的地方（空值、还是模板里那段中文说明没替换掉等）
+# check.py 和 main.py 都用它，避免把中文占位符当成真凭证发出去
+def config_problems():
+    problems = []
+    for name in ("user_id", "cookie", "token", "electiveBatchCode"):
+        value = globals().get(name) or ""
+        if not value:
+            problems.append("%s 还没填" % name)
+        elif not str(value).isascii():
+            problems.append("%s 里有中文或全角字符，八成还是 config.example.json 里的说明文字没替换掉"
+                            % name)
+    return problems

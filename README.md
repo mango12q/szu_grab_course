@@ -34,6 +34,9 @@ cd szu_grab_course
 pip install -r requirements.txt
 ```
 
+> macOS / Linux 上如果提示 `python: command not found`，把本文档所有命令里的 `python`
+> 换成 `python3`（用 `python3 -m pip install -r requirements.txt` 装依赖）。
+
 ## 四、配置
 
 复制配置模板，然后在 `config.json` 里填自己的信息：
@@ -50,7 +53,7 @@ cp config.example.json config.json
 
 需要填的四个字段，全部来自浏览器 F12：
 
-1. 先在网页上登录选课系统，按 `F12` 打开开发者工具，切到 **网络 / Network** 面板。
+1. 先在浏览器打开 **<http://bkxk.szu.edu.cn/>** 登录选课系统，按 `F12` 打开开发者工具，切到 **网络 / Network** 面板。
 2. 在页面上点一下「方案内课程」，再点「本班课程」，会看到一个 `recommendedCourse.do` 请求。
 3. 点开它：
    - **请求标头（Request Headers）** 里复制 `Cookie` 和 `token` → 填到 `cookie`、`token`（这两个每次重新登录都会变）。
@@ -78,6 +81,14 @@ cp config.example.json config.json
 
    `type` 字段对应关系：本班课程 `TJKC`、方案内课程 `FANKC`、方案外课程 `FAWKC`、
    校公选课 `XGXK`、慕课 `MOOC`、辅修课程 `FXKC`、体育课程 `TYKC`。
+
+   照这个格式填进 `config.json`（`id` 和 `type` 必填，`name` 只是打印给你自己看的）：
+
+   ```json
+   "courses": [
+     {"id": "202320242150294000101", "type": "FANKC", "name": "信息检索(潘微科)"}
+   ]
+   ```
 
 ## 五、运行
 

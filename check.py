@@ -28,10 +28,10 @@ def run_check():
 
     # ---------- 1. 配置 ----------
     print("\n[1/4] 配置")
-    missing = [name for name in ("user_id", "cookie", "token", "electiveBatchCode")
-               if not getattr(setting, name, "")]
-    if missing:
-        report(False, "还没填：" + "、".join(missing))
+    problems = setting.config_problems()
+    if problems:
+        for problem in problems:
+            report(False, problem)
         print("         照着 README「四、配置」填 config.json，或直接改 setting.py")
         return 1
     report(True, "user_id / cookie / token / electiveBatchCode 都填了")
