@@ -1,7 +1,1 @@
-# szu_grab_course 运行依赖
-# 说明：原 README 里那份 2019 年的清单（requests==2.21.0 / urllib3==1.24.1 / chardet==3.0.4 ...）
-# 在 Python 3.12+ 上会在 import 阶段直接崩：
-#   ModuleNotFoundError: No module named 'urllib3.packages.six.moves'
-# 本脚本全部代码都是纯 Python 3 语法，没有任何被移除的标准库依赖，
-# 因此只需要一个现代版本的 requests 即可（已在 Python 3.13.9 上验证通过）。
 requests>=2.31

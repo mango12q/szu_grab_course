@@ -19,11 +19,6 @@
 | 第三方库 | 只有一个：`requests` |
 | 操作系统 | Windows / macOS / Linux 都行 |
 
-> ❗ **不要照抄旧版 README 里的依赖清单**（`requests==2.21.0`、`urllib3==1.24.1` 那套）。
-> 那些 2019 年的包在 Python 3.12+ 上连 `import` 都会失败：
-> `ModuleNotFoundError: No module named 'urllib3.packages.six.moves'`。
-> 本项目代码是纯 Python 3 语法，用任意现代版本的 requests 即可。
-
 ## 二、下载
 
 ```bash
@@ -125,7 +120,6 @@ python main.py
 
 | 现象 | 原因 / 解决 |
 | --- | --- |
-| `ModuleNotFoundError: No module named 'urllib3.packages.six.moves'` | 装了旧版 requests，执行 `pip install -U requests` |
 | `ModuleNotFoundError: No module named 'requests'` | 没装依赖，执行 `pip install -r requirements.txt` |
 | 想先确认自己配置对不对 | 跑 `python check.py`，只读自检，不会提交任何选课请求 |
 | 提示「还没填写：cookie、token、…」 | `config.json` 没建或没填全 |
@@ -167,7 +161,6 @@ choose_course.py     选课提交 / 查询已选课程（两级确认用的回�
 downloads.py         课程列表下载逻辑
 download_data.py     课程列表下载入口
 util.py              session（带 10 秒默认超时）/ 时间戳 / url 拼接 / 登录页判断
-login.py             Cookie、token 获取（未被 main.py 调用）
 logs/                运行日志 + 见过的响应原文（gitignore，不进仓库）
 data/                下载下来的课程 csv
 pic/                 README 用的截图
