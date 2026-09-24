@@ -86,6 +86,17 @@ cp config.example.json config.json
 
 ## 五、运行
 
+**第一次配置完之后，先跑一次只读自检**（只读，不提交任何选课请求，可以放心跑）：
+
+```bash
+python check.py
+```
+
+它会依次检查：配置填全了没 → 选课系统连得上吗 → 你填的 Cookie / token 还有效吗 →
+「已选课程」接口返回的字段名和程序预期的是否对得上。全打 `[OK]` 再往下走。
+
+然后正式开始抢课：
+
 ```bash
 python main.py
 ```
@@ -116,6 +127,7 @@ python main.py
 | --- | --- |
 | `ModuleNotFoundError: No module named 'urllib3.packages.six.moves'` | 装了旧版 requests，执行 `pip install -U requests` |
 | `ModuleNotFoundError: No module named 'requests'` | 没装依赖，执行 `pip install -r requirements.txt` |
+| 想先确认自己配置对不对 | 跑 `python check.py`，只读自检，不会提交任何选课请求 |
 | 提示「还没填写：cookie、token、…」 | `config.json` 没建或没填全 |
 | 一直返回登录页 / 报错 | Cookie 和 token 过期了，重新登录后重新抓一遍（每次登录都会变） |
 | 提示「该课程超过课容量」 | 课满了，脚本会继续重试，等有人退课 |
@@ -149,6 +161,7 @@ python main.py
 
 ```
 main.py              抢课入口（轮询、两级确认、退避重试、结果汇总）
+check.py             只读自检（配置 / 连通性 / 登录态 / 接口字段名），不提交选课请求
 setting.py           配置读取 + 请求头
 choose_course.py     选课提交 / 查询已选课程（两级确认用的回查接口）
 downloads.py         课程列表下载逻辑

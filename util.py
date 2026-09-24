@@ -2,6 +2,7 @@
 # 程序工具
 
 import time
+
 import requests
 from requests.adapters import HTTPAdapter
 
@@ -25,6 +26,11 @@ class TimeoutHTTPAdapter(HTTPAdapter):
 session = requests.session()
 session.mount("http://", TimeoutHTTPAdapter())
 session.mount("https://", TimeoutHTTPAdapter())
+
+# 注意：这里不需要额外禁止 session 存 Cookie。cookiejar 在添加 Cookie 头之前会先
+# 检查请求上是否已经有 Cookie 头，有就不再添加，所以 setting.headers 里手写的
+# Cookie 永远优先，不会被服务器下发的 route/JSESSIONID 顶掉。
+# （实测见本地测试 verify_cookiejar.py）
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 
