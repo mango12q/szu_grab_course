@@ -188,3 +188,7 @@ config.example.json  配置模板 → 复制成 config.json 填自己的信息
 
 > ⚠️ 不要把 `config.json` 发出来，里面有你的学号和 Cookie。`logs/` 里的响应原文一般不含个人信息，
 > 但发之前也建议自己扫一眼。
+
+## 九、许可证
+
+[MIT](./LICENSE)
