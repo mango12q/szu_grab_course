@@ -5,6 +5,7 @@
 - 原始项目：[Lewin671/YourLesson](https://github.com/Lewin671/YourLesson)
 - 维护版：[guiyi886/szu_grab_course](https://github.com/guiyi886/szu_grab_course)（本项目基于它）
 - 本仓库：[mango12q/szu_grab_course](https://github.com/mango12q/szu_grab_course)
+- 联系方式：**mango12q@163.com**（有问题、有 bug、有建议都欢迎发邮件）
 
 > ⚠️ 抢课脚本会造成高频请求，请自己控制好 `delay`、遵守学校的选课规定，被风控或封号后果自负。
 
@@ -159,3 +160,18 @@ data/                下载下来的课程 csv
 pic/                 README 用的截图
 config.example.json  配置模板 → 复制成 config.json 填自己的信息
 ```
+
+## 八、反馈与联系方式
+
+用这个脚本遇到问题、发现 bug，或者想提改进建议，都欢迎发邮件到：
+
+**mango12q@163.com**
+
+这个 fork 没有开 Issues，所以直接发邮件是最快的渠道。为了能快点定位问题，邮件里最好附上：
+
+- 你的 Python 版本（`python --version`）和操作系统
+- 完整的报错输出（把终端里的内容整段复制下来）
+- `logs/` 里对应的响应原文——如果是「判定抢课成功」这类问题，这一段最关键
+
+> ⚠️ 不要把 `config.json` 发出来，里面有你的学号和 Cookie。`logs/` 里的响应原文一般不含个人信息，
+> 但发之前也建议自己扫一眼。
