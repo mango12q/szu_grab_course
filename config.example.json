@@ -1,0 +1,15 @@
+{
+  "user_id": "2021000000",
+  "cookie": "把 F12 → 网络 → recommendedCourse.do → 请求标头里的 Cookie 整段粘进来（每次重新登录都会变）",
+  "electiveBatchCode": "把同一个请求 载荷(Payload) 里的 electiveBatchCode 粘进来",
+  "token": "把同一个请求 请求标头里的 token 粘进来（每次重新登录都会变）",
+  "courses": [
+    {
+      "id": "202320242150294000101",
+      "type": "FANKC",
+      "name": "信息检索(潘微科)"
+    }
+  ],
+  "delay": 400,
+  "count": 150000000
+}

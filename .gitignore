@@ -138,3 +138,6 @@ dmypy.json
 cython_debug/
 
 .idea
+
+# 本地私有配置：学号 / Cookie / token / 课程列表 —— 绝对不要提交
+config.json

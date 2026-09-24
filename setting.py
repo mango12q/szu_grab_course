@@ -1,74 +1,73 @@
 # -*- coding: utf-8 -*-
 # 程序设置
+#
+# 私有信息（学号 / Cookie / token / electiveBatchCode / 要抢的课程）有两种填法：
+#
+#   方法一（推荐）：复制同目录下的 config.example.json 为 config.json，在里面填。
+#                   config.json 已被 .gitignore 忽略，push 时不会把你的学号和 Cookie 传到 GitHub。
+#
+#   方法二：直接改下面「需要你自己填的部分」的默认值。这种方式自己本地用没问题，
+#           但如果你把改动 commit 上去，你的学号和 Cookie 就会公开在仓库里，
+#           任何人都能拿去冒充你登录选课系统（直到你重新登录使 Cookie 失效）。
 
-'''
-需要配置的属性有:
-1. user_id: 学号
-2. cookie,electiveBatchCode,token这三个字段需要在浏览器登录后，打开开发者工具，选择在network选项卡中选择recommendedCourse.do
-   然后再找出相应字段
-3. 你要选择的课程，类比相关格式，填写courses
-4. 然后设置抢课延迟和选课提交次数
-'''
+import json
+import os
 
-'''
-【个人附加批注】
-流程：1.运行download_data.py拉取最新课程信息。2.查看信息按照格式填写setting.py。3.运行main.py进行抢课。
-ps.第一步可以不用，改为F12直接查看id。
-'''
-
-#学号
-user_id:str = "2021150047"
-
-#每次重新登录后会改变
-cookie = ("_WEU=rfhjF4PaYINuCCd_kqfaHvohaBAqdm4TgJ6RtIMKpLduDy1Ef2pMdvxDBRgFba2r; JSESSIONID=2CD85D58A90AA87245C9051B1E7976B5; "
-          "b-user-id=c571adeb-8c51-f97f-3375-58c09fcab4df; insert_cookie=33374701")
-
-electiveBatchCode = "04a79c9569de4ac09f6826f6324a644a"
-
-#每次重新登录后会改变
-token = "6e912f8e-a3b4-4ef5-8a0b-ca8358420b1c"
-
-# 本班课程： 'TJKC'
-# 方案内课程: 'FANKC'
-# 方案外课程： 'FAWKC'
-# 校公选课： 'XGXK'
-# 慕课: "ＭOOC"，
-# 辅修课程: "FXKC"，
-# 体育课程:"TYKC"
-# 你要抢的课程，按照如下格式提前先填写好   !!!!!其实不更新课程列表也可以.....F12看id就好......
-courses =[
-    #id的意思是2023-2024学期+课程编号+课序号， 课程类别，       课程名字(老师名字)   【注意是英文括号】
-    # {'id':'202320242150285000103','type':'FANKC','name':"互联网编程(毛斐巧)"},
-    {'id':'202320242150294000101','type':'FANKC','name':"信息检索(潘微科)"},
-    # {'id':'202320242150199003801','type':'FANKC','name':"数据库内核原理与实现(JIANBIN QIN)"}
-    # {'id':'202320242150328000102','type':'FANKC','name':"网络安全(林秋镇)"},
-    # {'id':'202320242150199001301','type':'FANKC','name':"数据挖掘(陈小军)"},
-    # {'id':'202320242150297000101','type':'FANKC','name':"面向对象高级编程专题(徐鹏飞)"},
-    # {'id':'202320242190064000132','type':'FANKC','name':"高等数学A（2）(李莉)"},
-]
-# 抢课的顺序是从上到下，若上面的课程没抢到就不会往下抢，想改成循环的话可以重构一下main.py（更新：已重构完成  归忆）
-
-# 间隔时间，单位是ms（最好不要低于400ms，不然可能会导致系统异常）
-delay:int = 400
-# 抢课的次数
-count:int = 150000000
+_CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
 
 
-########## 以上需要用户自行配置 ############
-########## 以上需要用户自行配置 ############
-########## 以上需要用户自行配置 ############
+# ==================== 需要你自己填的部分（默认值） ====================
+
+# 学号
+user_id = ""
+
+# 每次重新登录后都会改变
+cookie = ""
+
+electiveBatchCode = ""
+
+# 每次重新登录后都会改变
+token = ""
+
+# 你要抢的课程，格式：[{'id': '202320242150294000101', 'type': 'FANKC', 'name': '信息检索(潘微科)'}]
+# 课程类别：本班课程 TJKC / 方案内课程 FANKC / 方案外课程 FAWKC / 校公选课 XGXK
+#           慕课 MOOC / 辅修课程 FXKC / 体育课程 TYKC
+# 注意 id 里带的是学年学期码（20232024…），过了一个学期就会失效，需要重新获取。
+courses = []
+
+# 间隔时间，单位是 ms（最好不要低于 400ms，不然可能会被系统判定为异常请求）
+delay = 400
+
+# 抢课轮数，每一轮会把 courses 从上到下遍历一遍
+count = 150000000
+
+# ====================================================================
 
 
+# 如果存在 config.json，就用它覆盖上面的默认值
+if os.path.exists(_CONFIG_FILE):
+    with open(_CONFIG_FILE, "r", encoding="utf-8") as _f:
+        _config = json.load(_f)
 
+    user_id = str(_config.get("user_id") or user_id)
+    cookie = str(_config.get("cookie") or cookie)
+    electiveBatchCode = str(_config.get("electiveBatchCode") or electiveBatchCode)
+    token = str(_config.get("token") or token)
+    if _config.get("courses"):
+        courses = _config["courses"]
+    if _config.get("delay"):
+        delay = int(_config["delay"])
+    if _config.get("count"):
+        count = int(_config["count"])
 
 
 ########## 不要修改下面的配置！！！！！！  ############
 ########## 不要修改下面的配置！！！！！！  ############
 ########## 不要修改下面的配置！！！！！！  ############
 
-url:str = "http://bkxk.szu.edu.cn/"
+url = "http://bkxk.szu.edu.cn/"
 
-headers:map =  {
+headers = {
     "Cookie": cookie.strip(),
     "token": token.strip(),
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36",
@@ -81,3 +80,9 @@ headers:map =  {
 }
 
 
+# 启动时的自检提醒（不影响运行，只是提示你哪里还没填）
+_missing = [name for name in ("user_id", "cookie", "token", "electiveBatchCode") if not globals()[name]]
+if _missing:
+    print("[配置提醒] 还没填写：" + "、".join(_missing) + "（改 config.json 或 setting.py）")
+if not courses:
+    print("[配置提醒] courses 是空的，main.py 不会提交任何选课请求")
