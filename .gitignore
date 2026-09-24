@@ -141,3 +141,6 @@ cython_debug/
 
 # 本地私有配置：学号 / Cookie / token / 课程列表 —— 绝对不要提交
 config.json
+
+# 运行日志（含响应原文），本地留存即可
+logs/

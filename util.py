@@ -41,3 +41,9 @@ def get_session():
 # 获取完整路径
 def get_url(relavie_path):
     return "{}{}".format(setting.url,relavie_path)
+
+
+# 接口正常应该返回 JSON；如果返回的是登录页 HTML，说明 Cookie / token 已经失效
+def looks_like_login_page(text):
+    head = (text or "").lstrip()[:200].lower()
+    return head.startswith("<!doctype") or head.startswith("<html")
