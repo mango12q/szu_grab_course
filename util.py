@@ -3,9 +3,29 @@
 
 import time
 import requests
+from requests.adapters import HTTPAdapter
+
 import setting
 
+# 单次请求的超时时间（秒）。requests 默认不超时，一旦服务器不响应，
+# 程序会一直卡在那里，连 Ctrl+C 都不一定好使。下载课程列表嫌慢可以调大这个值。
+TIMEOUT = 10
+
+
+class TimeoutHTTPAdapter(HTTPAdapter):
+    """给所有请求加上默认超时，避免某一个请求把整个程序挂死"""
+
+    def send(self, request, **kwargs):
+        timeout = kwargs.get("timeout")
+        if not isinstance(timeout, (int, float, tuple)):
+            kwargs["timeout"] = TIMEOUT
+        return super().send(request, **kwargs)
+
+
 session = requests.session()
+session.mount("http://", TimeoutHTTPAdapter())
+session.mount("https://", TimeoutHTTPAdapter())
+
 current_milli_time = lambda: int(round(time.time() * 1000))
 
 
