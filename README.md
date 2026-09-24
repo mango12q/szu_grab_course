@@ -5,7 +5,7 @@
 - 原始项目：[Lewin671/YourLesson](https://github.com/Lewin671/YourLesson)
 - 维护版：[guiyi886/szu_grab_course](https://github.com/guiyi886/szu_grab_course)（本项目基于它）
 - 本仓库：[mango12q/szu_grab_course](https://github.com/mango12q/szu_grab_course)
-- 联系方式：**mango12q@163.com**（有问题、有 bug、有建议都欢迎发邮件）
+- 反馈：**优先提 [Issue](https://github.com/mango12q/szu_grab_course/issues)**，或发邮件到 **mango12q@163.com**
 
 > ⚠️ 抢课脚本会造成高频请求，请自己控制好 `delay`、遵守学校的选课规定，被风控或封号后果自负。
 
@@ -180,11 +180,12 @@ config.example.json  配置模板 → 复制成 config.json 填自己的信息
 
 ## 八、反馈与联系方式
 
-用这个脚本遇到问题、发现 bug，或者想提改进建议，都欢迎发邮件到：
+用这个脚本遇到问题、发现 bug，或者想提改进建议：
 
-**mango12q@163.com**
+- **优先提 Issue**：<https://github.com/mango12q/szu_grab_course/issues>（公开提，别人也能看到结论）
+- 不方便公开的话，发邮件到 **mango12q@163.com**
 
-这个 fork 没有开 Issues，所以直接发邮件是最快的渠道。为了能快点定位问题，邮件里最好附上：
+为了能快点定位问题，请附上：
 
 - 你的 Python 版本（`python --version`）和操作系统
 - 完整的报错输出（把终端里的内容整段复制下来）
